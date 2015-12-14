@@ -1,24 +1,14 @@
-'use strict';
+var app = angular.module('wheresMyBusApp',[
+                         'wheresMyBusApp.services',
+                         'wheresMyBusApp.busTelemetry',
+                         'wheresMyBusApp.map']);
 
-angular.module('myApp', [
-    'ui.router'
-  ])
+app.config(function(){
 
-    .config(function($stateProvider, $urlRouterProvider) {
-    
-    $urlRouterProvider.otherwise('/');
-    
-    $stateProvider
-        .state('home', {
-            url: '/',
-            templateUrl: 'views/main.html',
-            controller: 'MainCtrl'
-        })
-
-        .state('about', {
-          url: '/about',
-          templateUrl: 'views/about.html',
-          controller: 'AboutCtrl'
-        });
-        
 });
+
+app.run(function($rootScope){
+
+});
+
+

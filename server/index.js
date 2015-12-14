@@ -1,6 +1,7 @@
 var express = require('express');
 var Path = require('path');
 var routes = express.Router();
+var httpRequest = require('http-request');
 
 //
 //route to your index.html
@@ -11,8 +12,27 @@ routes.use(express.static(assetFolder));
 //
 // Example endpoint (also tested in test/server/index_test.js)
 //
-routes.get('/api/tags-example', function(req, res) {
-  res.send(['node', 'express', 'angular'])
+routes.get('/busData', function(req, res) {
+  // res.send(['node', 'express', 'angular'])
+  console.log("Serving /busData");
+  httpRequest.get({
+    url: 'https://data.texas.gov/download/gyui-3zdd/text/plain'
+  }, function(error, response){
+    if(error){
+      console.log(error);
+    }
+    res.set({
+      "access-control-allow-origin": "*",
+      "access-control-allow-methods": "GET, POST, PUT, DELETE, OPTIONS",
+      "access-control-allow-headers": "content-type, accept",
+      "access-control-max-age": 10, // Seconds.
+      "Content-Type": "text/plain"
+    });
+    console.log("Response.buffer: ", response.buffer);
+    console.log("Response.data: ", response.buffer);
+    res.send(response.buffer);
+  });
+
 });
 
 if(process.env.NODE_ENV !== 'test') {
