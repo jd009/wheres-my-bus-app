@@ -37,6 +37,7 @@ angular.module('wheresMyBusApp.busTelemetry', [])
       var routeBusLatAndLong = routeBusPosition.split(',');
       var routeBusLatitude = +routeBusLatAndLong[0];
       var routeBusLongitude = +routeBusLatAndLong[1];
+      placeBusMarker(routeBusLatitude, routeBusLongitude);
 
       var distanceFromRouteBus = getDistanceFromLatLonInKm(
                                    currentLatitude,
@@ -58,17 +59,7 @@ angular.module('wheresMyBusApp.busTelemetry', [])
     var currentBusLatitude = +currentBusLatAndLong[0];
     var currentBusLongitude = +currentBusLatAndLong[1];
 
-    var marker = new google.maps.Marker({
-      position: new google.maps.LatLng(currentBusLatitude, currentBusLongitude),
-      icon: {
-        path: google.maps.SymbolPath.CIRCLE,
-        scale: 10
-      },
-      map: $window.mapCanvas,
-      title: 'Current Bus'
-    });
-
-    marker.setMap($window.mapCanvas);
+    placeBusMarker(currentBusLatitude, currentBusLongitude);
 
     $scope.updateTime = currentBus.Updatetime;
     $scope.signage = currentBus.Signage;
@@ -95,6 +86,20 @@ angular.module('wheresMyBusApp.busTelemetry', [])
   var deg2rad = function(deg) {
     return deg * (Math.PI/180)
   };
+
+  var placeBusMarker = function(latitude, longitude){
+    var marker = new google.maps.Marker({
+      position: new google.maps.LatLng(latitude, longitude),
+      icon: {
+        path: google.maps.SymbolPath.CIRCLE,
+        scale: 10
+      },
+      map: $window.mapCanvas,
+      title: 'Current Bus'
+    });
+
+    marker.setMap($window.mapCanvas);
+  }
 
   $scope.refreshData();
 });
