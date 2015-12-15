@@ -8,7 +8,7 @@
       html, body{
         height: 100%;
         width: 100%;
-        background-color: lightgray;
+        background-color: darkgray;
       }
       #mapCanvas {
         height: 60%;
@@ -26,7 +26,13 @@
         text-align: center;
       }
       .legendItem {
+        text-align: center;
         vertical-align: middle;
+        font-family: Helvetica;
+        font-size: normal;
+      }
+      #closestItem {
+        font-size: larger;
       }
       .icon{
           height:40px; width:40px;
@@ -123,7 +129,7 @@
         <img ng-show="showLoading()" src="icons/loading.gif">
       </div>
       <div id="mapLegend">
-        <span class="legendItem">Closest Bus: </span>
+        <span class="legendItem" id="closestItem">Closest Bus: </span>
         <span class="icon" id="iconClosestBus"></span>
         <span class="legendItem">Northbound: </span>
         <span class="icon" id="iconNorth"></span>
