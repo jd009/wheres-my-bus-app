@@ -13,7 +13,6 @@ routes.use(express.static(assetFolder));
 // Example endpoint (also tested in test/server/index_test.js)
 //
 routes.get('/busData', function(req, res) {
-  // res.send(['node', 'express', 'angular'])
   console.log("Serving /busData");
   httpRequest.get({
     url: 'https://data.texas.gov/download/gyui-3zdd/text/plain'
