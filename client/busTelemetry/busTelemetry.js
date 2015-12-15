@@ -26,13 +26,17 @@ angular.module('wheresMyBusApp.busTelemetry', [])
 
   UserInput.setRefreshDataFunction($scope.refreshData);
 
-  var findDesiredBusRoute = function(desiredBusRoute, busses){
+  var findDesiredBusRoute = function(desiredBusRoute, busses, busDirection){
     var bussesOnDesiredRoute = [];
     for(var busIndex = 0; busIndex < busses.length; busIndex++){
       var currentBus = busses[busIndex];
       var currentRoute = currentBus.Route;
+      var currentDirection = currentBus.Direction;
       if(currentRoute === desiredBusRoute){
-        bussesOnDesiredRoute.push(currentBus);
+        if(currentDirection === busDirection ||
+           busDirection === 'All'){
+          bussesOnDesiredRoute.push(currentBus);
+        }
       }
     }
 
@@ -41,6 +45,7 @@ angular.module('wheresMyBusApp.busTelemetry', [])
     var isUser = true;
     var isClosestBus = false;
     var busDirection = null;
+    //Displaying user
     placeBusMarker(isUser, currentLatitude, currentLongitude, busDirection, isClosestBus);
 
     var minimumDistance = Number.MAX_VALUE;
@@ -75,7 +80,7 @@ angular.module('wheresMyBusApp.busTelemetry', [])
   }
 
   var displayData = function(busses, busRoute, busDirection){
-    var currentBus = findDesiredBusRoute(busRoute, busses);
+    var currentBus = findDesiredBusRoute(busRoute, busses, busDirection);
     if(currentBus === null){
       $scope.warning = "No bus found!";
       return;
