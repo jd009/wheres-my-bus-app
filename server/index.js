@@ -28,8 +28,6 @@ routes.get('/busData', function(req, res) {
       "access-control-max-age": 10, // Seconds.
       "Content-Type": "text/plain"
     });
-    console.log("Response.buffer: ", response.buffer);
-    console.log("Response.data: ", response.buffer);
     res.send(response.buffer);
   });
 
