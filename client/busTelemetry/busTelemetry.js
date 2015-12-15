@@ -56,7 +56,7 @@ angular.module('wheresMyBusApp.busTelemetry', [])
   }
 
   var displayData = function(busses){
-    var currentBus = findDesiredBusRoute('7', busses);
+    var currentBus = findDesiredBusRoute('3', busses);
     var currentBusLatAndLong = currentBus.Position.split(',');
     var currentBusLatitude = +currentBusLatAndLong[0];
     var currentBusLongitude = +currentBusLatAndLong[1];

@@ -8,6 +8,7 @@
       html, body{
         height: 100%;
         width: 100%;
+        background-color: lightgray;
       }
       #mapCanvas {
         height: 60%;
@@ -15,13 +16,47 @@
         margin: 0px;
         padding: 0px;
       }
+      .legendItem {
+        vertical-align: middle;
+      }
+      .icon{
+          height:40px; width:40px;
+          display:inline-block;
+      }
+      #iconClosestBus{
+          background:url(icons/busGreenSmall.png);
+      }
+      #iconNorth{
+          background: url(icons/busBlueSmall.png);
+      }
+      #iconSouth{
+          background: url(icons/busRedSmall.png);
+      }
+      #iconWest{
+          background: url(icons/busPurpleSmall.png);
+      }
+      #iconEast{
+          background: url(icons/busYellowSmall.png);
+      }
     </style>
   </head>
 
   <body>
-    <h1>T</h1>
+    <h1>Dude, where's my bus?</h1>
     <div id="mapCanvas" ng-controller="mapCtrl"></div>
     <div id="telemetry" ng-controller="telemetryCtrl">
+      <div id="mapLegend">
+        <span class="legendItem">Closest Bus: </span>
+        <span class="icon" id="iconClosestBus"></span>
+        <span class="legendItem">Northbound: </span>
+        <span class="icon" id="iconNorth"></span>
+        <span class="legendItem">Southbound: </span>
+        <span class="icon" id="iconSouth"></span>
+        <span class="legendItem">Westbound: </span>
+        <span class="icon" id="iconWest"></span>
+        <span class="legendItem">Eastbound: </span>
+        <span class="icon" id="iconEast"></span>
+      </div>
       <p>Update Time: {{updateTime}}</p>
       <p>Bus Signage: {{signage}}</p>
       <p>Bus Route: {{route}}</p>
