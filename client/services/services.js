@@ -24,4 +24,19 @@ angular.module('wheresMyBusApp.services', [])
     requestBusData: requestBusData,
     extractBusData: extractBusData
   };
+})
+.factory('UserInput', function(){
+  var refreshDataFunction = null;
+  var setRefreshDataFunction = function(refreshFunc){
+    refreshDataFunction = refreshFunc;
+  };
+
+  var refreshWithUserInput = function(busRoute, busDirection){
+    refreshDataFunction(busRoute, busDirection);
+  };
+
+  return {
+    setRefreshDataFunction: setRefreshDataFunction,
+    refreshWithUserInput: refreshWithUserInput
+  }
 });

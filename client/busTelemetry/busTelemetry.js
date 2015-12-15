@@ -1,18 +1,30 @@
 angular.module('wheresMyBusApp.busTelemetry', [])
 
-.controller('telemetryCtrl', function($scope, $window, CapitalMetro){
-  $scope.refreshData = function(){
+.controller('telemetryCtrl', function($scope, $window, CapitalMetro, UserInput){
+  $scope.warning = '';
+
+  $scope.refreshData = function(busRoute, busDirection){
+    if(! busRoute){
+      busRoute = '1';
+    }
+    if(! busDirection){
+      busDirection = 'N';
+    }
+
+    removeAllMarkers();
     CapitalMetro.requestBusData()
     .then(function(data){
       return CapitalMetro.extractBusData(data);
     })
     .then(function(busses){
-      displayData(busses);
+      displayData(busses, busRoute, busDirection);
     })
     .catch(function (error){
       console.log(error);
     });
   };
+
+  UserInput.setRefreshDataFunction($scope.refreshData);
 
   var findDesiredBusRoute = function(desiredBusRoute, busses){
     var bussesOnDesiredRoute = [];
@@ -48,15 +60,21 @@ angular.module('wheresMyBusApp.busTelemetry', [])
                                    routeBusLongitude);
       if(distanceFromRouteBus < minimumDistance){
         minimumDistance = distanceFromRouteBus;
-        closetBus = routeBus;
+        closestBus = routeBus;
       }
     }
 
-    return closetBus;
+    return closestBus;
   }
 
-  var displayData = function(busses){
-    var currentBus = findDesiredBusRoute('3', busses);
+  var displayData = function(busses, busRoute, busDirection){
+    var currentBus = findDesiredBusRoute(busRoute, busses);
+    if(currentBus === null){
+      $scope.warning = "No bus found!";
+      return;
+    } else {
+      $scope.warning = '';
+    }
     var currentBusLatAndLong = currentBus.Position.split(',');
     var currentBusLatitude = +currentBusLatAndLong[0];
     var currentBusLongitude = +currentBusLatAndLong[1];
@@ -90,6 +108,8 @@ angular.module('wheresMyBusApp.busTelemetry', [])
     return deg * (Math.PI/180)
   };
 
+  var markersCache = [];
+
   var placeBusMarker = function(latitude, longitude, direction, isClosest){
     var iconPath = null;
     if(isClosest){
@@ -117,6 +137,15 @@ angular.module('wheresMyBusApp.busTelemetry', [])
     });
 
     marker.setMap($window.mapCanvas);
+    markersCache.push(marker);
+  }
+
+  var removeAllMarkers = function(){
+    markersCache.forEach(function(marker){
+      marker.setMap(null);
+    });
+
+    markersCache = [];
   }
 
   $scope.refreshData();

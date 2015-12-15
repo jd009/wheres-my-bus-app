@@ -46,7 +46,9 @@
     <div id="userSelection" ng-controller="userCtrl">
       <select ng-model="selectedBusRoute">
         <option value="">Select Bus Route</option>
+        <option value="5">Route 5</option>
         <option value="7">Route 7</option>
+        <option value="481">Route 481</option>
       </select>
       <select ng-model="selectedDirection">
         <option value="">Select Direction</option>
@@ -68,6 +70,7 @@
         <span class="legendItem">Eastbound: </span>
         <span class="icon" id="iconEast"></span>
       </div>
+      <p>{{warning}}</p>
       <p>Update Time: {{updateTime}}</p>
       <p>Bus Signage: {{signage}}</p>
       <p>Bus Route: {{route}}</p>
