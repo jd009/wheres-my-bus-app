@@ -43,6 +43,15 @@
 
   <body>
     <h1>Dude, where's my bus?</h1>
+    <div id="userSelection" ng-controller="userCtrl">
+      <select ng-model="selectedBusRoute">
+        <option value="">Select Bus Route</option>
+      </select>
+      <select ng-model="selectedDirection">
+        <option value="">Select Direction</option>
+      </select>
+      <input type="button" ng-click="searchBus()" value="Dude, where's my bus?">
+    </div>
     <div id="mapCanvas" ng-controller="mapCtrl"></div>
     <div id="telemetry" ng-controller="telemetryCtrl">
       <div id="mapLegend">
@@ -76,6 +85,7 @@
     <script src="./lib/angular-sanitize/angular-sanitize.js"></script>
     <script src="./lib/angular-ui-router/release/angular-ui-router.js"></script>
     <script src="services/services.js"></script>
+    <script src="userInput/user.js"></script>
     <script src="busTelemetry/busTelemetry.js"></script>
     <script src="map/map.js"></script>
     <script src="app.js"></script>
