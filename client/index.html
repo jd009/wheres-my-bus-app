@@ -38,19 +38,22 @@
       #iconEast{
           background: url(icons/busYellowSmall.png);
       }
+      .selectElem{
+        font-size: large;
+      }
     </style>
   </head>
 
   <body>
     <h1>Dude, where's my bus?</h1>
     <div id="userSelection" ng-controller="userCtrl">
-      <select ng-model="selectedBusRoute">
+      <select class="selectElem" ng-model="selectedBusRoute">
         <option value="">Select Bus Route</option>
         <option value="5">Route 5</option>
         <option value="7">Route 7</option>
         <option value="481">Route 481</option>
       </select>
-      <select ng-model="selectedDirection">
+      <select class="selectElem" ng-model="selectedDirection">
         <option value="">Select Direction</option>
         <option value="N">North</option>
       </select>
@@ -95,6 +98,6 @@
     <script src="map/map.js"></script>
     <script src="app.js"></script>
 
-    <link rel="stylesheet" type="text/css" href="index.css">
+    <!-- <link rel="stylesheet" type="text/css" href="index.css"> -->
   </footer>
 </html>
