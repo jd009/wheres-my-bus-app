@@ -40,6 +40,34 @@
       }
       .selectElem{
         font-size: large;
+        display: block;
+      }
+      #mapLegend{
+        padding: 3px;
+      }
+      #userSelection{
+        display: block;
+      }
+      .userInputs{
+        list-style: none;
+        text-align: left;
+      }
+      .userInputs li {
+        display: inline-block;
+        width: 160px;
+      }
+      .userSelectDiv {
+          display: inline-block;
+          width: 100px;
+      }
+      #searchButton{
+        display: block;
+        height: 50px;
+        width: 350px;
+        margin: 5px;
+      }
+      span{
+        margin: 3px;
       }
     </style>
   </head>
@@ -47,20 +75,34 @@
   <body>
     <h1>Dude, where's my bus?</h1>
     <div id="userSelection" ng-controller="userCtrl">
-      <select class="selectElem" ng-model="selectedBusRoute">
-        <option value="">Select Bus Route</option>
-        <option value="5">Route 5</option>
-        <option value="7">Route 7</option>
-        <option value="481">Route 481</option>
-      </select>
-      <select class="selectElem" ng-model="selectedDirection">
-        <option value="">Select Direction</option>
-        <option value="N">North</option>
-      </select>
-      <input type="button" ng-click="searchBus()" value="Dude, where's my bus?">
-    </div>
-    <div id="mapCanvas" ng-controller="mapCtrl"></div>
-    <div id="telemetry" ng-controller="telemetryCtrl">
+      <ul class="userInputs">
+        <li>
+          <!-- <div class="userSelectDiv"> -->
+            <label class="userSelectLabel" for="selectBusRoute">Select Bus Route</label>
+            <select name="selectBusRoute" class="selectElem" ng-model="selectedBusRoute" ng-options="busRoute for busRoute in getBusListOptions()">
+              <option value="">Select Bus Route</option>
+            </select>
+          <!-- </div> -->
+        </li>
+        <li>
+          <!-- <div class="userSelectDiv"> -->
+            <label class="userSelectLabel" for="selectBusDirection">Select Bus Direction</label>
+            <select name="selectBusDirection" class="selectElem" ng-model="selectedDirection">
+              <option value="">Select Direction</option>
+              <option value="N">North</option>
+              <option value="S">South</option>
+              <option value="W">West</option>
+              <option value="E">East</option>
+              <option value="I">Inbound</option>
+              <option value="O">Outbound</option>
+            </select>
+          <!-- </div> -->
+        </li>
+<!--         <li>
+          <button type="button" id="searchButton" ng-click="searchBus()" value="Dude, where's my bus?">
+        </li> -->
+      </ul>
+      <button type="button" id="searchButton" ng-click="searchBus()">Dude, where's my bus?</button>
       <div id="mapLegend">
         <span class="legendItem">Closest Bus: </span>
         <span class="icon" id="iconClosestBus"></span>
@@ -73,13 +115,16 @@
         <span class="legendItem">Eastbound: </span>
         <span class="icon" id="iconEast"></span>
       </div>
+    </div>
+    <div id="mapCanvas" ng-controller="mapCtrl"></div>
+    <div id="telemetry" ng-controller="telemetryCtrl">
       <p>{{warning}}</p>
       <p>Update Time: {{updateTime}}</p>
       <p>Bus Signage: {{signage}}</p>
+      <p>Bus Speed: {{speed}}MPH</p>
+      <p>Bus Position: {{position}}</p>
       <p>Bus Route: {{route}}</p>
       <p>Bus Direction: {{direction}}</p>
-      <p>Bus Speed: {{speed}}</p>
-      <p>Bus Position: {{position}}</p>
     </div>
   </body>
 

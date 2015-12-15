@@ -36,8 +36,13 @@ angular.module('wheresMyBusApp.busTelemetry', [])
       }
     }
 
-    var currentLatitude = 30.269033; 
-    var currentLongitude = -97.740235;
+    var currentLatitude = UserInput.getUserLatitude(); 
+    var currentLongitude = UserInput.getUserLongitude();
+    var isUser = true;
+    var isClosestBus = false;
+    var busDirection = null;
+    placeBusMarker(isUser, currentLatitude, currentLongitude, busDirection, isClosestBus);
+
     var minimumDistance = Number.MAX_VALUE;
     var closestBus = null;
     for(var routeBusIndex = 0; 
@@ -51,7 +56,9 @@ angular.module('wheresMyBusApp.busTelemetry', [])
       var routeBusLongitude = +routeBusLatAndLong[1];
       var routeBusDirection = routeBus.Direction;
 
-      placeBusMarker(routeBusLatitude, routeBusLongitude, routeBusDirection, false);
+      var isUser = false;
+      var isClosestBus = false;
+      placeBusMarker(isUser, routeBusLatitude, routeBusLongitude, routeBusDirection, isClosestBus);
 
       var distanceFromRouteBus = getDistanceFromLatLonInKm(
                                    currentLatitude,
@@ -80,7 +87,9 @@ angular.module('wheresMyBusApp.busTelemetry', [])
     var currentBusLongitude = +currentBusLatAndLong[1];
     var currentBusDirection = currentBus.Direction;
 
-    placeBusMarker(currentBusLatitude, currentBusLongitude, currentBusDirection, true);
+    var isUser = false;
+    var isClosestBus = true;
+    placeBusMarker(isUser, currentBusLatitude, currentBusLongitude, currentBusDirection, isClosestBus);
 
     $scope.updateTime = currentBus.Updatetime;
     $scope.signage = currentBus.Signage;
@@ -110,13 +119,17 @@ angular.module('wheresMyBusApp.busTelemetry', [])
 
   var markersCache = [];
 
-  var placeBusMarker = function(latitude, longitude, direction, isClosest){
+  var placeBusMarker = function(isUser, latitude, longitude, direction, isClosest){
     var iconPath = null;
-    if(isClosest){
+    var iconScaledSize = new google.maps.Size(25, 25);
+    if(isUser){
+      iconPath = './icons/user.png';
+      iconScaledSize = new google.maps.Size(50, 50);
+    } else if(isClosest){
       iconPath = './icons/busGreen.png';
-    }else if(direction === 'N'){
+    } else if(direction === 'N' || direction === 'O'){
       iconPath = './icons/busBlue.png';
-    } else if(direction === 'S'){
+    } else if(direction === 'S' || direction === 'I'){
       iconPath = './icons/busRed.png';
     } else if(direction === 'W'){
       iconPath = './icons/busPurple.png';
@@ -130,7 +143,7 @@ angular.module('wheresMyBusApp.busTelemetry', [])
       position: new google.maps.LatLng(latitude, longitude),
       icon: {
         url: iconPath,
-        scaledSize: new google.maps.Size(25, 25)
+        scaledSize: iconScaledSize
       },
       animation: google.maps.Animation.DROP,
       map: $window.mapCanvas
