@@ -12,7 +12,7 @@
       }
       #mapCanvas {
         height: 60%;
-        width: 80%;
+        width: 60%;
         margin: 0px;
         padding: 0px;
       }
@@ -46,9 +46,11 @@
     <div id="userSelection" ng-controller="userCtrl">
       <select ng-model="selectedBusRoute">
         <option value="">Select Bus Route</option>
+        <option value="7">Route 7</option>
       </select>
       <select ng-model="selectedDirection">
         <option value="">Select Direction</option>
+        <option value="N">North</option>
       </select>
       <input type="button" ng-click="searchBus()" value="Dude, where's my bus?">
     </div>
