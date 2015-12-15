@@ -42,11 +42,7 @@ angular.module('wheresMyBusApp.busTelemetry', [])
 
     var currentLatitude = UserInput.getUserLatitude(); 
     var currentLongitude = UserInput.getUserLongitude();
-    var isUser = true;
-    var isClosestBus = false;
-    var busDirection = null;
-    //Displaying user
-    placeBusMarker(isUser, currentLatitude, currentLongitude, busDirection, isClosestBus);
+    placeUserMarker(currentLatitude, currentLongitude);
 
     var minimumDistance = Number.MAX_VALUE;
     var closestBus = null;
@@ -61,9 +57,8 @@ angular.module('wheresMyBusApp.busTelemetry', [])
       var routeBusLongitude = +routeBusLatAndLong[1];
       var routeBusDirection = routeBus.Direction;
 
-      var isUser = false;
       var isClosestBus = false;
-      placeBusMarker(isUser, routeBusLatitude, routeBusLongitude, routeBusDirection, isClosestBus);
+      placeBusMarker(routeBusLatitude, routeBusLongitude, routeBusDirection, isClosestBus);
 
       var distanceFromRouteBus = getDistanceFromLatLonInKm(
                                    currentLatitude,
@@ -92,9 +87,8 @@ angular.module('wheresMyBusApp.busTelemetry', [])
     var currentBusLongitude = +currentBusLatAndLong[1];
     var currentBusDirection = currentBus.Direction;
 
-    var isUser = false;
     var isClosestBus = true;
-    placeBusMarker(isUser, currentBusLatitude, currentBusLongitude, currentBusDirection, isClosestBus);
+    placeBusMarker(currentBusLatitude, currentBusLongitude, currentBusDirection, isClosestBus);
 
     $scope.updateTime = currentBus.Updatetime;
     $scope.signage = currentBus.Signage;
@@ -122,15 +116,16 @@ angular.module('wheresMyBusApp.busTelemetry', [])
     return deg * (Math.PI/180)
   };
 
-  var markersCache = [];
+  var placeUserMarker = function(latitude, longitude){
+    var userIconPath = './icons/user.png';
+    var userIconScaledSize = new google.maps.Size(50, 50);
 
-  var placeBusMarker = function(isUser, latitude, longitude, direction, isClosest){
+    placeMarker(latitude, longitude, userIconPath, userIconScaledSize);
+  };
+
+  var placeBusMarker = function(latitude, longitude, direction, isClosest){
     var iconPath = null;
-    var iconScaledSize = new google.maps.Size(25, 25);
-    if(isUser){
-      iconPath = './icons/user.png';
-      iconScaledSize = new google.maps.Size(50, 50);
-    } else if(isClosest){
+    if(isClosest){
       iconPath = './icons/busGreen.png';
     } else if(direction === 'N' || direction === 'O'){
       iconPath = './icons/busBlue.png';
@@ -144,6 +139,13 @@ angular.module('wheresMyBusApp.busTelemetry', [])
       throw new Error('Unrecognized paramter!');
     }
 
+    var iconScaledSize = new google.maps.Size(25, 25);
+    placeMarker(latitude, longitude, iconPath, iconScaledSize);
+  }
+
+  var markersCache = [];
+
+  var placeMarker = function(latitude, longitude, iconPath, iconScaledSize){
     var marker = new google.maps.Marker({
       position: new google.maps.LatLng(latitude, longitude),
       icon: {
