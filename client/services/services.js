@@ -94,7 +94,7 @@ angular.module('wheresMyBusApp.services', [])
     return userLongitude;
   }
 
-  var placeMarker = function(isUser, latitude, longitude, iconPath, iconScaledSize){
+  var placeMarker = function(isUser, latitude, longitude, iconPath, iconScaledSize, busTelemetry){
     var isDraggable = isUser;
     var marker = new google.maps.Marker({
       position: new google.maps.LatLng(latitude, longitude),
@@ -110,6 +110,20 @@ angular.module('wheresMyBusApp.services', [])
     if(isDraggable){
       marker.addListener('dragend', function(){
         $window.mapCanvas.setCenter(marker.getPosition());
+      });
+    } else {
+      var busInfo = "<p>" + busTelemetry.signage + "</p>" + "<p>Speed: " + busTelemetry.speed + " MPH" +"</p>";
+      var infoWindow = new google.maps.InfoWindow({
+        content: busInfo
+      });
+
+      marker.addListener('mouseover', function(){
+        infoWindow.setContent(infoWindow.getContent());
+        infoWindow.open($window.mapCanvas, this);
+      });
+
+      marker.addListener('mouseout', function(){
+        infoWindow.close();
       });
     }
 
