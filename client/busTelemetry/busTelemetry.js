@@ -39,16 +39,20 @@ angular.module('wheresMyBusApp.busTelemetry', [])
       }
     }
 
+    return bussesOnDesiredRoute;
+  };
+
+  var findClosestBus = function(bussesOnRoute, busDirection){
     var userLatitude = AppMap.getUserLatitude(); 
     var userLongitude = AppMap.getUserLongitude();
 
     var minimumDistance = Number.MAX_VALUE;
     var closestBus = null;
     for(var routeBusIndex = 0; 
-        routeBusIndex < bussesOnDesiredRoute.length;
+        routeBusIndex < bussesOnRoute.length;
         routeBusIndex++)
     {
-      var routeBus = bussesOnDesiredRoute[routeBusIndex];
+      var routeBus = bussesOnRoute[routeBusIndex];
       var routeBusPosition = routeBus.Position;
       var routeBusLatAndLong = routeBusPosition.split(',');
       var routeBusLatitude = +routeBusLatAndLong[0];
@@ -70,7 +74,7 @@ angular.module('wheresMyBusApp.busTelemetry', [])
     }
 
     return closestBus;
-  }
+  };
 
   var displayUser = function(){
     var userLatitude = AppMap.getUserLatitude();
@@ -79,27 +83,28 @@ angular.module('wheresMyBusApp.busTelemetry', [])
   };
 
   var displayData = function(busses, busRoute, busDirection){
-    var currentBus = findDesiredBusRoute(busRoute, busses, busDirection);
-    if(currentBus === null){
+    var bussesOnRoute = findDesiredBusRoute(busRoute, busses, busDirection);
+    var closestBus = findClosestBus(bussesOnRoute, busDirection);
+    if(closestBus === null){
       $scope.warning = "No bus found!";
       return;
     } else {
       $scope.warning = '';
     }
-    var currentBusLatAndLong = currentBus.Position.split(',');
-    var currentBusLatitude = +currentBusLatAndLong[0];
-    var currentBusLongitude = +currentBusLatAndLong[1];
-    var currentBusDirection = currentBus.Direction;
+    var closestBusLatAndLong = closestBus.Position.split(',');
+    var closestBusLatitude = +closestBusLatAndLong[0];
+    var closestBusLongitude = +closestBusLatAndLong[1];
+    var closestBusDirection = closestBus.Direction;
 
     var isClosestBus = true;
-    placeBusMarker(currentBusLatitude, currentBusLongitude, currentBusDirection, isClosestBus);
+    placeBusMarker(closestBusLatitude, closestBusLongitude, closestBusDirection, isClosestBus);
 
-    $scope.updateTime = currentBus.Updatetime;
-    $scope.signage = currentBus.Signage;
-    $scope.route = currentBus.Route;
-    $scope.direction = currentBus.Direction;
-    $scope.speed = currentBus.Speed;
-    $scope.position = currentBus.Position;
+    $scope.updateTime = closestBus.Updatetime;
+    $scope.signage = closestBus.Signage;
+    $scope.route = closestBus.Route;
+    $scope.direction = closestBus.Direction;
+    $scope.speed = closestBus.Speed;
+    $scope.position = closestBus.Position;
   };
 
   var getDistanceFromLatLonInKm = function(lat1,lon1,lat2,lon2) {

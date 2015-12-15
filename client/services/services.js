@@ -110,7 +110,7 @@ angular.module('wheresMyBusApp.services', [])
     if(isDraggable){
       marker.addListener('dragend', function(){
         $window.mapCanvas.setCenter(marker.getPosition());
-      })
+      });
     }
 
     marker.setMap($window.mapCanvas);
