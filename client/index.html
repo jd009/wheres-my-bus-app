@@ -16,6 +16,13 @@
         margin: 0px;
         padding: 0px;
       }
+      h1{
+        background-color: lightblue;
+        font-family: Arial Black;
+        margin: 0px;
+        padding: 10px;
+        border: 2px solid darkblue;
+      }
       .legendItem {
         vertical-align: middle;
       }
@@ -60,11 +67,20 @@
           display: inline-block;
           width: 100px;
       }
+      .userSelectLabel{
+        font-family: Helvetica;
+        font-size: larger;
+      }
       #searchButton{
         display: block;
         height: 50px;
         width: 350px;
         margin: 5px;
+        font-size: larger;
+        font-family: Arial Black;
+        color: Red;
+        border: 2px solid black;
+        box-shadow: 8px 8px 5px #888888;
       }
       span{
         margin: 3px;
@@ -77,16 +93,13 @@
     <div id="userSelection" ng-controller="userCtrl">
       <ul class="userInputs">
         <li>
-          <!-- <div class="userSelectDiv"> -->
-            <label class="userSelectLabel" for="selectBusRoute">Select Bus Route</label>
+            <label class="userSelectLabel" for="selectBusRoute">Bus Route</label>
             <select name="selectBusRoute" class="selectElem" ng-model="selectedBusRoute" ng-options="busRoute for busRoute in getBusListOptions()">
               <option value="">Select Bus Route</option>
             </select>
-          <!-- </div> -->
         </li>
         <li>
-          <!-- <div class="userSelectDiv"> -->
-            <label class="userSelectLabel" for="selectBusDirection">Select Bus Direction</label>
+            <label class="userSelectLabel" for="selectBusDirection">Bus Direction</label>
             <select name="selectBusDirection" class="selectElem" ng-model="selectedDirection">
               <option value="">Select Direction</option>
               <option value="All">All</option>
@@ -97,13 +110,9 @@
               <option value="I">Inbound</option>
               <option value="O">Outbound</option>
             </select>
-          <!-- </div> -->
         </li>
-<!--         <li>
-          <button type="button" id="searchButton" ng-click="searchBus()" value="Dude, where's my bus?">
-        </li> -->
       </ul>
-      <button type="button" id="searchButton" ng-click="searchBus()">Dude, where's my bus?</button>
+      <button type="button" id="searchButton" ng-click="searchBus()">Dude, find my bus!</button>
       <div id="mapLegend">
         <span class="legendItem">Closest Bus: </span>
         <span class="icon" id="iconClosestBus"></span>

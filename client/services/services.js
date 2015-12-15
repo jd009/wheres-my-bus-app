@@ -71,4 +71,35 @@ angular.module('wheresMyBusApp.services', [])
     getUserLatitude: getUserLatitude,
     getUserLongitude: getUserLongitude
   }
-});
+})
+.factory('AppMap', function($window){
+  var markersCache = [];
+
+  var placeMarker = function(latitude, longitude, iconPath, iconScaledSize){
+    var marker = new google.maps.Marker({
+      position: new google.maps.LatLng(latitude, longitude),
+      icon: {
+        url: iconPath,
+        scaledSize: iconScaledSize
+      },
+      animation: google.maps.Animation.DROP,
+      map: $window.mapCanvas
+    });
+
+    marker.setMap($window.mapCanvas);
+    markersCache.push(marker);
+  };
+
+  var removeAllMarkers = function(){
+    markersCache.forEach(function(marker){
+      marker.setMap(null);
+    });
+
+    markersCache = [];
+  };
+
+  return {
+    placeMarker: placeMarker,
+    removeAllMarkers: removeAllMarkers
+  }
+})

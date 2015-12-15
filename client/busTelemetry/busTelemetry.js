@@ -1,6 +1,6 @@
 angular.module('wheresMyBusApp.busTelemetry', [])
 
-.controller('telemetryCtrl', function($scope, $window, CapitalMetro, UserInput){
+.controller('telemetryCtrl', function($scope, CapitalMetro, UserInput, AppMap){
   $scope.warning = '';
 
   $scope.refreshData = function(busRoute, busDirection){
@@ -11,7 +11,7 @@ angular.module('wheresMyBusApp.busTelemetry', [])
       busDirection = 'N';
     }
 
-    removeAllMarkers();
+    AppMap.removeAllMarkers();
     CapitalMetro.requestBusData()
     .then(function(data){
       return CapitalMetro.extractBusData(data);
@@ -120,7 +120,7 @@ angular.module('wheresMyBusApp.busTelemetry', [])
     var userIconPath = './icons/user.png';
     var userIconScaledSize = new google.maps.Size(50, 50);
 
-    placeMarker(latitude, longitude, userIconPath, userIconScaledSize);
+    AppMap.placeMarker(latitude, longitude, userIconPath, userIconScaledSize);
   };
 
   var placeBusMarker = function(latitude, longitude, direction, isClosest){
@@ -140,32 +140,7 @@ angular.module('wheresMyBusApp.busTelemetry', [])
     }
 
     var iconScaledSize = new google.maps.Size(25, 25);
-    placeMarker(latitude, longitude, iconPath, iconScaledSize);
-  }
-
-  var markersCache = [];
-
-  var placeMarker = function(latitude, longitude, iconPath, iconScaledSize){
-    var marker = new google.maps.Marker({
-      position: new google.maps.LatLng(latitude, longitude),
-      icon: {
-        url: iconPath,
-        scaledSize: iconScaledSize
-      },
-      animation: google.maps.Animation.DROP,
-      map: $window.mapCanvas
-    });
-
-    marker.setMap($window.mapCanvas);
-    markersCache.push(marker);
-  }
-
-  var removeAllMarkers = function(){
-    markersCache.forEach(function(marker){
-      marker.setMap(null);
-    });
-
-    markersCache = [];
+    AppMap.placeMarker(latitude, longitude, iconPath, iconScaledSize);
   }
 
   $scope.refreshData();
