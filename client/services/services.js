@@ -100,9 +100,11 @@ angular.module('wheresMyBusApp.services', [])
     });
 
     marker.setMap($window.mapCanvas);
-    markersCache.push(marker);
+
     if(isUser){
       userMarker = marker;
+    } else {
+      markersCache.push(marker);
     }
   };
 

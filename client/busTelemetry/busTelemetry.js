@@ -12,9 +12,10 @@ angular.module('wheresMyBusApp.busTelemetry', [])
       return CapitalMetro.extractBusData(data);
     })
     .then(function(busses){
-      displayUser();
       if(displayBussesEnabled){
         displayData(busses, busRoute, busDirection);
+      } else {
+        displayUser();
       }
     })
     .catch(function (error){
