@@ -2,13 +2,20 @@ angular.module('wheresMyBusApp.services', [])
 
 .factory('CapitalMetro', function($http){
   var busRouteList = null;
+  var isRequestInProgress = false;
+
+  var requestInProgress = function(){
+    return isRequestInProgress;
+  }
 
   var requestBusData = function(){
+    isRequestInProgress = true;
     return $http({
       method: 'GET',
       url: '/busData'
     })
     .then(function(response){
+      isRequestInProgress = false;
       return response.data;
     });
   };
@@ -41,6 +48,7 @@ angular.module('wheresMyBusApp.services', [])
   };
 
   return {
+    requestInProgress: requestInProgress,
     requestBusData: requestBusData,
     extractBusData: extractBusData,
     populateBusList: populateBusList,
