@@ -37,7 +37,9 @@ angular.module('wheresMyBusApp.busTelemetry', [])
       var routeBusLatAndLong = routeBusPosition.split(',');
       var routeBusLatitude = +routeBusLatAndLong[0];
       var routeBusLongitude = +routeBusLatAndLong[1];
-      placeBusMarker(routeBusLatitude, routeBusLongitude);
+      var routeBusDirection = routeBus.Direction;
+
+      placeBusMarker(routeBusLatitude, routeBusLongitude, routeBusDirection, false);
 
       var distanceFromRouteBus = getDistanceFromLatLonInKm(
                                    currentLatitude,
@@ -58,8 +60,9 @@ angular.module('wheresMyBusApp.busTelemetry', [])
     var currentBusLatAndLong = currentBus.Position.split(',');
     var currentBusLatitude = +currentBusLatAndLong[0];
     var currentBusLongitude = +currentBusLatAndLong[1];
+    var currentBusDirection = currentBus.Direction;
 
-    placeBusMarker(currentBusLatitude, currentBusLongitude);
+    placeBusMarker(currentBusLatitude, currentBusLongitude, currentBusDirection, true);
 
     $scope.updateTime = currentBus.Updatetime;
     $scope.signage = currentBus.Signage;
@@ -87,15 +90,30 @@ angular.module('wheresMyBusApp.busTelemetry', [])
     return deg * (Math.PI/180)
   };
 
-  var placeBusMarker = function(latitude, longitude){
+  var placeBusMarker = function(latitude, longitude, direction, isClosest){
+    var iconPath = null;
+    if(isClosest){
+      iconPath = './icons/busGreen.png';
+    }else if(direction === 'N'){
+      iconPath = './icons/busBlue.png';
+    } else if(direction === 'S'){
+      iconPath = './icons/busRed.png';
+    } else if(direction === 'W'){
+      iconPath = './icons/busPurple.png';
+    } else if(direction === 'E'){
+      iconPath = './icons/busYellow.png';
+    } else {
+      throw new Error('Unrecognized paramter!');
+    }
+
     var marker = new google.maps.Marker({
       position: new google.maps.LatLng(latitude, longitude),
       icon: {
-        path: google.maps.SymbolPath.CIRCLE,
-        scale: 10
+        url: iconPath,
+        scaledSize: new google.maps.Size(25, 25)
       },
-      map: $window.mapCanvas,
-      title: 'Current Bus'
+      animation: google.maps.Animation.DROP,
+      map: $window.mapCanvas
     });
 
     marker.setMap($window.mapCanvas);
