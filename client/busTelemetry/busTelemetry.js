@@ -4,12 +4,7 @@ angular.module('wheresMyBusApp.busTelemetry', [])
   $scope.warning = '';
 
   $scope.refreshData = function(busRoute, busDirection){
-    if(! busRoute){
-      busRoute = '1';
-    }
-    if(! busDirection){
-      busDirection = 'N';
-    }
+    var displayBussesEnabled = (busRoute) && (busDirection);
 
     AppMap.removeAllMarkers();
     CapitalMetro.requestBusData()
@@ -17,7 +12,10 @@ angular.module('wheresMyBusApp.busTelemetry', [])
       return CapitalMetro.extractBusData(data);
     })
     .then(function(busses){
-      displayData(busses, busRoute, busDirection);
+      displayUser();
+      if(displayBussesEnabled){
+        displayData(busses, busRoute, busDirection);
+      }
     })
     .catch(function (error){
       console.log(error);
@@ -42,7 +40,6 @@ angular.module('wheresMyBusApp.busTelemetry', [])
 
     var userLatitude = AppMap.getUserLatitude(); 
     var userLongitude = AppMap.getUserLongitude();
-    placeUserMarker(userLatitude, userLongitude);
 
     var minimumDistance = Number.MAX_VALUE;
     var closestBus = null;
@@ -74,6 +71,12 @@ angular.module('wheresMyBusApp.busTelemetry', [])
     return closestBus;
   }
 
+  var displayUser = function(){
+    var userLatitude = AppMap.getUserLatitude();
+    var userLongitude = AppMap.getUserLongitude();
+    placeUserMarker(userLatitude, userLongitude);
+  };
+
   var displayData = function(busses, busRoute, busDirection){
     var currentBus = findDesiredBusRoute(busRoute, busses, busDirection);
     if(currentBus === null){
@@ -96,7 +99,7 @@ angular.module('wheresMyBusApp.busTelemetry', [])
     $scope.direction = currentBus.Direction;
     $scope.speed = currentBus.Speed;
     $scope.position = currentBus.Position;
-  }
+  };
 
   var getDistanceFromLatLonInKm = function(lat1,lon1,lat2,lon2) {
     var R = 6371; // Radius of the earth in km
