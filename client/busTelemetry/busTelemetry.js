@@ -40,9 +40,9 @@ angular.module('wheresMyBusApp.busTelemetry', [])
       }
     }
 
-    var currentLatitude = UserInput.getUserLatitude(); 
-    var currentLongitude = UserInput.getUserLongitude();
-    placeUserMarker(currentLatitude, currentLongitude);
+    var userLatitude = AppMap.getUserLatitude(); 
+    var userLongitude = AppMap.getUserLongitude();
+    placeUserMarker(userLatitude, userLongitude);
 
     var minimumDistance = Number.MAX_VALUE;
     var closestBus = null;
@@ -61,8 +61,8 @@ angular.module('wheresMyBusApp.busTelemetry', [])
       placeBusMarker(routeBusLatitude, routeBusLongitude, routeBusDirection, isClosestBus);
 
       var distanceFromRouteBus = getDistanceFromLatLonInKm(
-                                   currentLatitude,
-                                   currentLongitude,
+                                   userLatitude,
+                                   userLongitude,
                                    routeBusLatitude,
                                    routeBusLongitude);
       if(distanceFromRouteBus < minimumDistance){
@@ -120,7 +120,8 @@ angular.module('wheresMyBusApp.busTelemetry', [])
     var userIconPath = './icons/user.png';
     var userIconScaledSize = new google.maps.Size(50, 50);
 
-    AppMap.placeMarker(latitude, longitude, userIconPath, userIconScaledSize);
+    var isUser = true;
+    AppMap.placeMarker(isUser, latitude, longitude, userIconPath, userIconScaledSize);
   };
 
   var placeBusMarker = function(latitude, longitude, direction, isClosest){
@@ -140,7 +141,8 @@ angular.module('wheresMyBusApp.busTelemetry', [])
     }
 
     var iconScaledSize = new google.maps.Size(25, 25);
-    AppMap.placeMarker(latitude, longitude, iconPath, iconScaledSize);
+    var isUser = false;
+    AppMap.placeMarker(isUser, latitude, longitude, iconPath, iconScaledSize);
   }
 
   $scope.refreshData();

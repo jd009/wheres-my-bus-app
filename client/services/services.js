@@ -57,25 +57,37 @@ angular.module('wheresMyBusApp.services', [])
     refreshDataFunction(busRoute, busDirection);
   };
 
-  var getUserLatitude = function(){
-    return 30.269033;
-  };
-
-  var getUserLongitude = function(){
-    return -97.740235;
-  }
-
   return {
     setRefreshDataFunction: setRefreshDataFunction,
-    refreshWithUserInput: refreshWithUserInput,
-    getUserLatitude: getUserLatitude,
-    getUserLongitude: getUserLongitude
+    refreshWithUserInput: refreshWithUserInput
   }
 })
 .factory('AppMap', function($window){
   var markersCache = [];
+  var userMarker = null;
 
-  var placeMarker = function(latitude, longitude, iconPath, iconScaledSize){
+  var getUserLatitude = function(){
+    var userLatitude = null;
+    if(userMarker === null){
+      userLatitude = 30.269033;
+    } else {
+      userLatitude = userMarker.position.lat();
+    }
+    return userLatitude;
+  };
+
+  var getUserLongitude = function(){
+    var userLongitude = null;
+    if(userMarker === null){
+      userLongitude = -97.740235;
+    } else {
+      userLongitude = userMarker.position.lng();
+    }
+    return userLongitude;
+  }
+
+  var placeMarker = function(isUser, latitude, longitude, iconPath, iconScaledSize){
+    var isDraggable = isUser;
     var marker = new google.maps.Marker({
       position: new google.maps.LatLng(latitude, longitude),
       icon: {
@@ -83,11 +95,15 @@ angular.module('wheresMyBusApp.services', [])
         scaledSize: iconScaledSize
       },
       animation: google.maps.Animation.DROP,
+      draggable: isDraggable,
       map: $window.mapCanvas
     });
 
     marker.setMap($window.mapCanvas);
     markersCache.push(marker);
+    if(isUser){
+      userMarker = marker;
+    }
   };
 
   var removeAllMarkers = function(){
@@ -100,6 +116,8 @@ angular.module('wheresMyBusApp.services', [])
 
   return {
     placeMarker: placeMarker,
-    removeAllMarkers: removeAllMarkers
+    removeAllMarkers: removeAllMarkers,
+    getUserLatitude: getUserLatitude,
+    getUserLongitude: getUserLongitude
   }
-})
+});
