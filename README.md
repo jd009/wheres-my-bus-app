@@ -16,5 +16,8 @@ the desired direction.  The app will color-code the closest
 bus as green and then color-code the other busses on the same
 route according to their compass direction.
 
+![alt tag](https://github.com/jd009/wheres-my-bus-app/blob/master/screenshots/DudeWheresMyBus1.png)
 
+![alt tag](https://github.com/jd009/wheres-my-bus-app/blob/master/screenshots/DudeWheresMyBus2.png)
 
+![alt tag](https://github.com/jd009/wheres-my-bus-app/blob/master/screenshots/DudeWheresMyBus3.png)
