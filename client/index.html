@@ -4,103 +4,6 @@
     <title>Where's My Bus?</title>
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
     <meta charset="utf-8">
-    <style>
-      html, body{
-        height: 100%;
-        width: 100%;
-        background-color: darkgray;
-      }
-      #mapCanvas {
-        height: 60%;
-        width: 60%;
-        margin: 0px;
-        padding: 0px;
-      }
-      h1{
-        background-color: lightblue;
-        font-family: Arial Black;
-        margin: 0px;
-        padding: 10px;
-        border: 2px solid darkblue;
-        width: 60%;
-        text-align: center;
-      }
-      .legendItem {
-        text-align: center;
-        vertical-align: middle;
-        font-family: Helvetica;
-        font-size: normal;
-      }
-      #closestItem {
-        font-size: larger;
-      }
-      .icon{
-          height:40px; width:40px;
-          display:inline-block;
-      }
-      #iconClosestBus{
-          background:url(icons/busGreenSmall.png);
-      }
-      #iconNorth{
-          background: url(icons/busBlueSmall.png);
-      }
-      #iconSouth{
-          background: url(icons/busRedSmall.png);
-      }
-      #iconWest{
-          background: url(icons/busPurpleSmall.png);
-      }
-      #iconEast{
-          background: url(icons/busYellowSmall.png);
-      }
-      .selectElem{
-        font-size: large;
-        display: block;
-      }
-      #mapLegend{
-        padding: 3px;
-      }
-      #userSelection{
-        display: block;
-      }
-      .userInputs{
-        list-style: none;
-        text-align: left;
-      }
-      .userInputs li {
-        display: inline-block;
-        width: 160px;
-      }
-      .userSelectDiv {
-          display: inline-block;
-          width: 100px;
-      }
-      .userSelectLabel{
-        font-family: Helvetica;
-        font-size: larger;
-      }
-      #searchButton{
-        display: inline-block;
-        height: 50px;
-        width: 350px;
-        margin: 5px;
-        font-size: larger;
-        font-family: Arial Black;
-        color: Red;
-        border: 2px solid black;
-        box-shadow: 8px 8px 5px #888888;
-      }
-      button:hover{
-        background: white;
-      }
-      span{
-        margin: 3px;
-      }
-      img{
-        display: inline-block;
-        vertical-align: text-top;
-      }
-    </style>
   </head>
 
   <body>
@@ -157,6 +60,7 @@
   </body>
 
   <footer>
+    <link rel="stylesheet" type="text/css" href="index.css">
     <script src="https://maps.googleapis.com/maps/api/js?v=3.exp"></script>
     <script src="./lib/angular/angular.js"></script>
     <script src="./lib/angular-animate/angular-animate.js"></script>
@@ -170,7 +74,5 @@
     <script src="busTelemetry/busTelemetry.js"></script>
     <script src="map/map.js"></script>
     <script src="app.js"></script>
-
-    <!-- <link rel="stylesheet" type="text/css" href="index.css"> -->
   </footer>
 </html>

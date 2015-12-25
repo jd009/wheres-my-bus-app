@@ -1,26 +1,95 @@
-h1{
-	color: #2380E2;
-	font-family: sans-serif;
+html, body{
+  height: 100%;
+  width: 100%;
+  background-color: darkgray;
 }
-
-.btn {
-  background: #639FDE;
-  border-radius: 28px;
-  font-family: sans-serif;
-  color: #ffffff;
-  font-size: 20px;
-  padding: 10px 20px 10px 20px;
-  text-decoration: none;
+#mapCanvas {
+  height: 60%;
+  width: 60%;
+  margin: 0px;
+  padding: 0px;
+}
+h1{
+  background-color: lightblue;
+  font-family: Arial Black;
+  margin: 0px;
+  padding: 10px;
+  border: 2px solid darkblue;
+  width: 60%;
   text-align: center;
 }
-
-.btn:hover{
-  background-color: #2380E2;
+.legendItem {
+  text-align: center;
+  vertical-align: middle;
+  font-family: Helvetica;
+  font-size: normal;
 }
-
-
-.jumbotron{
-	background-color: #dcdcdc;
-	text-align: center;
-	border-radius: 2px;
+#closestItem {
+  font-size: larger;
+}
+.icon{
+    height:40px; width:40px;
+    display:inline-block;
+}
+#iconClosestBus{
+    background:url(icons/busGreenSmall.png);
+}
+#iconNorth{
+    background: url(icons/busBlueSmall.png);
+}
+#iconSouth{
+    background: url(icons/busRedSmall.png);
+}
+#iconWest{
+    background: url(icons/busPurpleSmall.png);
+}
+#iconEast{
+    background: url(icons/busYellowSmall.png);
+}
+.selectElem{
+  font-size: large;
+  display: block;
+}
+#mapLegend{
+  padding: 3px;
+}
+#userSelection{
+  display: block;
+}
+.userInputs{
+  list-style: none;
+  text-align: left;
+}
+.userInputs li {
+  display: inline-block;
+  width: 160px;
+}
+.userSelectDiv {
+    display: inline-block;
+    width: 100px;
+}
+.userSelectLabel{
+  font-family: Helvetica;
+  font-size: larger;
+}
+#searchButton{
+  display: inline-block;
+  height: 50px;
+  width: 350px;
+  margin: 5px;
+  font-size: larger;
+  font-family: Arial Black;
+  color: Red;
+  border: 2px solid black;
+  box-shadow: 8px 8px 5px #888888;
+}
+button:hover{
+  background: white;
+}
+span{
+  margin: 3px;
+}
+img{
+  display: inline-block;
+  vertical-align: text-top;
 }
